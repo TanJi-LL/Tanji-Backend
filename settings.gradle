@@ -1,0 +1,4 @@
+rootProject.name = 'tanji'
+include 'module-common'
+include 'module-domain:domain-rds'
+include 'module-api'

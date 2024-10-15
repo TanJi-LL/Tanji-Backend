@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: module-api
+
+  profiles:
+    active: local # default
+    group:
+      local:  # local, jwt, oauth profile? ???? ?? ?????? ??
+        - rds
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+    import:
+      - application-rds-local.yml
