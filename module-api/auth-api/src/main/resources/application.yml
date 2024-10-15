@@ -19,3 +19,4 @@ spring:
       on-profile: local
     import:
       - application-rds-local.yml
+      - application-auth-local.yml

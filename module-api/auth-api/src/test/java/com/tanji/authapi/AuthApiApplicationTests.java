@@ -1,10 +1,10 @@
-package com.tanji.apimodule;
+package com.tanji.authapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ModuleApiApplicationTests {
+class AuthApiApplicationTests {
 
     @Test
     void contextLoads() {
