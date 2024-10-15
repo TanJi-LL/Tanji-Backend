@@ -1,5 +1,5 @@
-bootJar {enabled = false}
-jar {enabled = true}
+bootJar { enabled = false }
+jar { enabled = true }
 
 dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
@@ -7,3 +7,4 @@ dependencies {
 }
 
 tasks.register("prepareKotlinBuildScriptModel"){}
+

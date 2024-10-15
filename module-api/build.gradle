@@ -7,6 +7,7 @@ repositories {
 
 dependencies {
     implementation project(':module-domain:domain-rds')
+    implementation project(':module-domain:domain-redis')
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
