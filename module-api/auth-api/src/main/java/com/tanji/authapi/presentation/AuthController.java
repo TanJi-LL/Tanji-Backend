@@ -1,6 +1,6 @@
-package com.tanji.authapi.member.controller;
+package com.tanji.authapi.presentation;
 
-import com.tanji.authapi.member.service.MemberService;
+import com.tanji.authapi.application.AuthService;
 import com.tanji.commonmodule.response.ApiResponse;
 import com.tanji.domainrds.domains.member.dto.response.MemberInfoResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +16,9 @@ import static com.tanji.commonmodule.response.SuccessStatus.GET_MEMBER_SUCCESS;
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
-public class MemberController {
+public class AuthController {
 
-    private final MemberService memberService;
+    private final AuthService authService;
 
     @GetMapping("/test")
     public String test(Principal principal) {
@@ -32,6 +32,6 @@ public class MemberController {
     @GetMapping
     public ResponseEntity<ApiResponse<MemberInfoResponse>> getMemberInfo(Principal principal) {
         Long memberId = Long.valueOf(principal.getName());
-        return ApiResponse.success(GET_MEMBER_SUCCESS,memberService.getMemberInfo(memberId));
+        return ApiResponse.success(GET_MEMBER_SUCCESS, authService.getMemberInfo(memberId));
     }
 }

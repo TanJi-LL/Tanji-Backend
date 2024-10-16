@@ -1,5 +1,6 @@
-package com.tanji.authapi.oauth.handler;
+package com.tanji.authapi.handler;
 
+import com.tanji.authapi.exception.JwtErrorCode;
 import com.tanji.commonmodule.response.ApiResponse;
 import com.tanji.commonmodule.utils.HttpResponseUtil;
 import jakarta.servlet.ServletException;
@@ -14,8 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static com.tanji.authapi.oauth.exception.JwtErrorCode.FORBIDDEN_ACCESS;
-
 
 /**
  * 인가 과정에서 생길 exception을 처리
@@ -27,7 +26,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.info("JwtAccessDeniedHandler: AccessDeniedException", accessDeniedException);
-        ResponseEntity<ApiResponse<Object>> fail = ApiResponse.fail(FORBIDDEN_ACCESS.getHttpStatus(), FORBIDDEN_ACCESS.getMessage());
+        ResponseEntity<ApiResponse<Object>> fail = ApiResponse.fail(JwtErrorCode.FORBIDDEN_ACCESS.getHttpStatus(), JwtErrorCode.FORBIDDEN_ACCESS.getMessage());
         HttpResponseUtil.setErrorResponse(response, HttpStatus.FORBIDDEN, fail);
     }
 }

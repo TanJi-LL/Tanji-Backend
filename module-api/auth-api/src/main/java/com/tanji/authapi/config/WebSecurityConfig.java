@@ -1,11 +1,11 @@
 package com.tanji.authapi.config;
 
-import com.tanji.authapi.oauth.handler.JwtAccessDeniedHandler;
-import com.tanji.authapi.oauth.handler.JwtAuthenticationEntryPoint;
-import com.tanji.authapi.oauth.handler.OAuth2AuthenticationFailureHandler;
-import com.tanji.authapi.oauth.handler.OAuth2AuthenticationSuccessHandler;
-import com.tanji.authapi.oauth.jwt.JwtAuthenticationFilter;
-import com.tanji.authapi.oauth.service.CustomOAuth2UserService;
+import com.tanji.authapi.application.CustomOAuth2UserService;
+import com.tanji.authapi.handler.OAuth2AuthenticationFailureHandler;
+import com.tanji.authapi.jwt.JwtAuthenticationFilter;
+import com.tanji.authapi.handler.JwtAccessDeniedHandler;
+import com.tanji.authapi.handler.JwtAuthenticationEntryPoint;
+import com.tanji.authapi.handler.OAuth2AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +38,7 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)// UsernamePasswordAuthenticationFilter.class 실행X. eo
+                .formLogin(AbstractHttpConfigurer::disable)// UsernamePasswordAuthenticationFilter.class 실행X.
                 .logout(AbstractHttpConfigurer::disable)
                 .headers(c -> c.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable).disable())
                 .sessionManagement(c ->c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

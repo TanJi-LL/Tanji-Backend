@@ -1,4 +1,4 @@
-package com.tanji.authapi.oauth.jwt;
+package com.tanji.authapi.jwt;
 
 import lombok.Getter;
 import lombok.Setter;

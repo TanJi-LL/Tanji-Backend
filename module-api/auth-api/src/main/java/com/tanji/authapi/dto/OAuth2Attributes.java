@@ -1,11 +1,11 @@
-package com.tanji.authapi.oauth.dto;
-import com.tanji.authapi.oauth.exception.AuthException;
+package com.tanji.authapi.dto;
+import com.tanji.authapi.exception.AuthException;
 import com.tanji.domainrds.domains.member.domain.Member;
 import com.tanji.domainrds.domains.member.domain.Role;
 
 import java.util.Map;
 
-import static com.tanji.authapi.oauth.exception.AuthErrorCode.ILLEGAL_REGISTRATION_ID;
+import static com.tanji.authapi.exception.AuthErrorCode.ILLEGAL_REGISTRATION_ID;
 
 public record OAuth2Attributes(
         Map<String, Object> attributes,
@@ -14,7 +14,7 @@ public record OAuth2Attributes(
         String email,
 //        String profile,
         String registerType,
-        Long socialId
+        String socialId
 ) {
     /**
      * OAuth2 로그인 제공자에 따라 적절한 `OAuth2Attributes` 인스턴스를 생성
@@ -29,6 +29,8 @@ public record OAuth2Attributes(
     ) {
         if ("kakao".equals(socialName)) {
             return ofKakao(userNameAttributeName, attributes);
+        } else if ("google".equals(socialName)) {
+            return ofGoogle(userNameAttributeName, attributes);
         }
         throw new AuthException(ILLEGAL_REGISTRATION_ID);
     }
@@ -44,9 +46,22 @@ public record OAuth2Attributes(
                 (String) account.get("email"),
 //                (String) profile.get("profile_image_url"),
                 "KAKAO",
-                Long.valueOf(attributes.get("id").toString())
+                attributes.get("id").toString()
         );
     }
+
+    private static OAuth2Attributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+        return new OAuth2Attributes(
+                attributes,
+                userNameAttributeName,
+                (String) attributes.get("name"),
+                (String) attributes.get("email"),
+//                (String) attributes.get("picture"),
+                "GOOGLE",
+                attributes.get("sub").toString()
+        );
+    }
+
 
     /**
      * `OAuth2Attributes`를 `Member` 엔티티로 변환

@@ -1,4 +1,4 @@
-package com.tanji.authapi.oauth.handler;
+package com.tanji.authapi.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

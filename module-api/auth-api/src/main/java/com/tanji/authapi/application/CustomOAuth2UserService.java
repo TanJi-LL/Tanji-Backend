@@ -1,11 +1,10 @@
-package com.tanji.authapi.oauth.service;
+package com.tanji.authapi.application;
 
-import com.tanji.authapi.oauth.dto.OAuth2Attributes;
-import com.tanji.authapi.oauth.dto.OAuth2UserImpl;
+import com.tanji.authapi.dto.OAuth2Attributes;
+import com.tanji.authapi.dto.OAuth2UserImpl;
 import com.tanji.domainrds.domains.member.domain.Member;
 import com.tanji.domainrds.domains.member.service.MemberCommandService;
 import com.tanji.domainrds.domains.member.service.MemberQueryService;
-import jakarta.security.auth.message.AuthException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

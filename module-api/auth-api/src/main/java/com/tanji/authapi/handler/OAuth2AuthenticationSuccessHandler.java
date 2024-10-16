@@ -1,8 +1,7 @@
-package com.tanji.authapi.oauth.handler;
+package com.tanji.authapi.handler;
 
-import com.tanji.authapi.oauth.dto.JwtResponseDto;
-import com.tanji.authapi.oauth.jwt.JwtUtil;
-import com.tanji.domainredis.util.RedisUtil;
+import com.tanji.authapi.jwt.JwtUtil;
+import com.tanji.authapi.dto.JwtResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,6 @@ import java.io.IOException;
 @Component
 public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
-    private final RedisUtil redisUtil;
     @Value("${spring.security.oauth2.client.callback-uri}")
     private String oauth2CallbackUri;
     @Override
