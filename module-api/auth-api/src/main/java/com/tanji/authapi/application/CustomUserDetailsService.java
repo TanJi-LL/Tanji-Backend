@@ -1,6 +1,6 @@
-package com.tanji.authapi.oauth.service;
+package com.tanji.authapi.application;
 
-import com.tanji.authapi.oauth.dto.OAuth2UserImpl;
+import com.tanji.authapi.dto.OAuth2UserImpl;
 import com.tanji.domainrds.domains.member.domain.Member;
 import com.tanji.domainrds.domains.member.service.MemberQueryService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // 여기서 username은 id value
         Member member = memberQueryService.findById(Long.valueOf(username))
                 .orElseThrow(() -> new UsernameNotFoundException("id가 " + username + "인 유저는 존재하지 않습니다."));
 

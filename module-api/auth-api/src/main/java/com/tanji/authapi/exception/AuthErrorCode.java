@@ -1,4 +1,4 @@
-package com.tanji.authapi.oauth.exception;
+package com.tanji.authapi.exception;
 
 import com.tanji.commonmodule.exception.BaseErrorCode;
 import com.tanji.commonmodule.response.ApiResponse;

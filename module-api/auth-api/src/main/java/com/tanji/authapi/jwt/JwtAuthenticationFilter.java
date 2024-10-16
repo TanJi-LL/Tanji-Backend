@@ -1,6 +1,6 @@
-package com.tanji.authapi.oauth.jwt;
+package com.tanji.authapi.jwt;
 
-import com.tanji.authapi.oauth.exception.JwtErrorCode;
+import com.tanji.authapi.exception.JwtErrorCode;
 import com.tanji.commonmodule.exception.CommonErrorCode;
 import com.tanji.commonmodule.response.ApiResponse;
 import com.tanji.commonmodule.utils.HttpResponseUtil;

@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum SuccessStatus {
 
     /**
-     * auth
+     * oauth
      */
     TOKEN_REFRESH_SUCCESS(HttpStatus.OK, "토큰 갱신 성공"),
     LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃 성공"),

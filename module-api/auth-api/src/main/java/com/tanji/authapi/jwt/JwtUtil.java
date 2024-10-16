@@ -1,10 +1,9 @@
-package com.tanji.authapi.oauth.jwt;
+package com.tanji.authapi.jwt;
 
-
-import com.tanji.authapi.oauth.dto.JwtResponseDto;
-import com.tanji.authapi.oauth.exception.JwtCustomException;
-import com.tanji.authapi.oauth.exception.JwtErrorCode;
-import com.tanji.authapi.oauth.service.CustomUserDetailsService;
+import com.tanji.authapi.dto.JwtResponseDto;
+import com.tanji.authapi.exception.JwtCustomException;
+import com.tanji.authapi.exception.JwtErrorCode;
+import com.tanji.authapi.application.CustomUserDetailsService;
 import com.tanji.domainredis.util.RedisUtil;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -30,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.tanji.authapi.oauth.jwt.JwtProperties.AUTHORITIES;
+import static com.tanji.authapi.jwt.JwtProperties.AUTHORITIES;
 
 @Slf4j
 @Component

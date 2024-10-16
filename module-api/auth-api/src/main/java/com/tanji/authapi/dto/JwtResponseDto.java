@@ -1,4 +1,4 @@
-package com.tanji.authapi.oauth.dto;
+package com.tanji.authapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

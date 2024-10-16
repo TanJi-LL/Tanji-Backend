@@ -1,4 +1,4 @@
-package com.tanji.authapi.oauth.handler;
+package com.tanji.authapi.handler;
 
 import com.tanji.commonmodule.response.ApiResponse;
 import com.tanji.commonmodule.utils.HttpResponseUtil;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static com.tanji.authapi.oauth.exception.AuthErrorCode.UNAUTHORIZED_MEMBER;
+import static com.tanji.authapi.exception.AuthErrorCode.UNAUTHORIZED_MEMBER;
 
 /**
  * 인증 과정에서 생길 exception을 처리
