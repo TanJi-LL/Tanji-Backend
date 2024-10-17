@@ -4,6 +4,7 @@ import com.tanji.authapi.application.AuthService;
 import com.tanji.authapi.dto.request.ReissueTokenRequest;
 import com.tanji.authapi.dto.response.JwtResponse;
 import com.tanji.commonmodule.response.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<JwtResponse>> reissueToken(@RequestBody ReissueTokenRequest reissueTokenRequest) {
+    public ResponseEntity<ApiResponse<JwtResponse>> reissueToken(@Valid @RequestBody ReissueTokenRequest reissueTokenRequest) {
         return ApiResponse.success(REISSUE_TOKEN_SUCCESS, authService.reissueToken(reissueTokenRequest));
     }
 
