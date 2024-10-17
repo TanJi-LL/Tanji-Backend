@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum AuthSuccessStatus implements BaseSuccessStatus {
-    TOKEN_REFRESH_SUCCESS(HttpStatus.OK, "토큰 갱신 성공"),
+    REISSUE_TOKEN_SUCCESS(HttpStatus.OK, "토큰 갱신 성공"),
     LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃 성공"),
     GET_MEMBER_SUCCESS(HttpStatus.OK, "멤버 정보 조회 성공");
 

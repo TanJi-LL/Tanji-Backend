@@ -46,6 +46,10 @@ public class RedisUtil {
     public Object get(String key) {
         return redisTemplate.opsForValue().get(key);
     }
+    public Object getValue(String key) {
+        return get(key);
+    }
+
 
     /**
      * Redis에서 해당 키를 삭제하는 메서드.

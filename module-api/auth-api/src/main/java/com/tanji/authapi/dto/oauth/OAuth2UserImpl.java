@@ -1,4 +1,4 @@
-package com.tanji.authapi.dto;
+package com.tanji.authapi.dto.oauth;
 
 import com.tanji.domainrds.domains.member.domain.Member;
 import org.springframework.security.core.GrantedAuthority;

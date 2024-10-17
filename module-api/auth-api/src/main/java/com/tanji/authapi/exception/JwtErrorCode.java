@@ -18,7 +18,6 @@ public enum JwtErrorCode implements BaseErrorCode {
     TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "토큰이 존재하지 않습니다."),
     INTERNAL_SECURITY_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "인증 처리 중 서버 에러가 발생했습니다."),
     INTERNAL_TOKEN_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "토큰 처리 중 서버 에러가 발생했습니다."),
-
     NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "토큰 검증 결과 존재하지 않는 멤버입니다.");
 
     private final HttpStatus httpStatus;

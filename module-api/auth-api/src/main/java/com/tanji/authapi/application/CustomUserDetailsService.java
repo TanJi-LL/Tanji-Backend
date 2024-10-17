@@ -1,6 +1,6 @@
 package com.tanji.authapi.application;
 
-import com.tanji.authapi.dto.OAuth2UserImpl;
+import com.tanji.authapi.dto.oauth.OAuth2UserImpl;
 import com.tanji.domainrds.domains.member.domain.Member;
 import com.tanji.domainrds.domains.member.service.MemberQueryService;
 import lombok.RequiredArgsConstructor;
