@@ -17,15 +17,17 @@ public class ApiResponse<T> {
     private final String message;
     private T data;
 
-    public static <T> ResponseEntity<ApiResponse<T>> success(SuccessStatus successStatus) {
+    /**
+     * success 응답 처리
+     */
+    public static <T> ResponseEntity<ApiResponse<T>> success(BaseSuccessStatus successStatus) {
         return ResponseEntity.status(successStatus.getHttpStatus())
                 .body(ApiResponse.<T>builder()
                         .status(successStatus.getStatusCode())
                         .success(true)
                         .message(successStatus.getMessage()).build());
     }
-
-    public static <T> ResponseEntity<ApiResponse<T>> success(SuccessStatus successStatus, T data) {
+    public static <T> ResponseEntity<ApiResponse<T>> success(BaseSuccessStatus successStatus, T data) {
         return ResponseEntity.status(successStatus.getHttpStatus())
                 .body(ApiResponse.<T>builder()
                         .status(successStatus.getStatusCode())
@@ -34,6 +36,9 @@ public class ApiResponse<T> {
                         .data(data).build());
     }
 
+    /**
+     * fail 응답 처리
+     */
     public static <T> ResponseEntity<ApiResponse<T>> fail(HttpStatus httpStatus, String message) {
         return ResponseEntity.status(httpStatus.value())
                 .body(ApiResponse.<T>builder()

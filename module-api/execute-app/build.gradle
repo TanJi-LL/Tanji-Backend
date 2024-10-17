@@ -1,12 +1,6 @@
 bootJar { enabled = true }
 jar { enabled = false }
-
-repositories {
-	mavenCentral()
-}
-
 dependencies {
 	implementation project(':module-api:auth-api')
 	implementation project(':module-api:test-api')
-
 }
