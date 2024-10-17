@@ -1,6 +1,7 @@
 package com.tanji.commonmodule.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tanji.commonmodule.response.ApiResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -19,15 +20,21 @@ public class HttpResponseUtil {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-//    public static void setSuccessResponse(HttpServletResponse response, HttpStatus httpStatus, Object body) throws
-//            IOException {
-//        log.info("[*] Success Response");
-//        String responseBody = objectMapper.writeValueAsString(ApiResponse.onSuccess(body));
-//        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//        response.setStatus(httpStatus.value());
-//        response.setCharacterEncoding("UTF-8");
-//        response.getWriter().write(responseBody);
-//    }
+    public static void setSuccessResponse(HttpServletResponse response, HttpStatus httpStatus, Object body) throws IOException {
+        log.info("[*] Success Response");
+        ApiResponse<Object> apiResponse = ApiResponse.<Object>builder()
+                .status(httpStatus.value())
+                .success(true)
+                .message(httpStatus.getReasonPhrase())
+                .data(body)
+                .build();
+        String responseBody = objectMapper.writeValueAsString(apiResponse);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(httpStatus.value());
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(responseBody);
+    }
+
 
     public static void setErrorResponse(HttpServletResponse response, HttpStatus httpStatus, ResponseEntity responseEntity) throws IOException {
         log.info("[*] Failure Response");

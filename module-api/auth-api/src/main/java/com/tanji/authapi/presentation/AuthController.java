@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
-import static com.tanji.commonmodule.response.SuccessStatus.GET_MEMBER_SUCCESS;
+import static com.tanji.authapi.response.AuthSuccessStatus.GET_MEMBER_SUCCESS;
 
 @RestController
 @RequestMapping("/api/v1/members")

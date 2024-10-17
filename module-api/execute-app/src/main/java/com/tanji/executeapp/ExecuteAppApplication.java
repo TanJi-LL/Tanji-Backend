@@ -1,18 +1,17 @@
-package com.tanji.application;
+package com.tanji.executeapp;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {
-		"com.tanji"    // test-api 모듈 패키지
+		"com.tanji"
 })
-public class Application {
+public class ExecuteAppApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(ExecuteAppApplication.class, args);
 	}
 
 }
