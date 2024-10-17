@@ -12,7 +12,6 @@ public record OAuth2Attributes(
         String nameAttributeKey,
         String nickname,
         String email,
-//        String profile,
         String registerType,
         String socialId
 ) {
@@ -44,7 +43,6 @@ public record OAuth2Attributes(
                 userNameAttributeName,
                 (String) profile.get("nickname"),
                 (String) account.get("email"),
-//                (String) profile.get("profile_image_url"),
                 "KAKAO",
                 attributes.get("id").toString()
         );
@@ -56,7 +54,6 @@ public record OAuth2Attributes(
                 userNameAttributeName,
                 (String) attributes.get("name"),
                 (String) attributes.get("email"),
-//                (String) attributes.get("picture"),
                 "GOOGLE",
                 attributes.get("sub").toString()
         );
@@ -68,7 +65,7 @@ public record OAuth2Attributes(
      */
     public Member toEntity() {
         return Member.builder()
-                .provider("KAKAO")
+                .provider(registerType)
                 .socialId(socialId.toString())
                 .nickname(nickname)
                 .email(email)
