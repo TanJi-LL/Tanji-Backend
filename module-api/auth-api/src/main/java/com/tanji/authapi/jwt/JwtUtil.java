@@ -1,6 +1,6 @@
 package com.tanji.authapi.jwt;
 
-import com.tanji.authapi.dto.JwtResponseDto;
+import com.tanji.authapi.dto.response.JwtResponse;
 import com.tanji.authapi.exception.JwtCustomException;
 import com.tanji.authapi.exception.JwtErrorCode;
 import com.tanji.authapi.application.CustomUserDetailsService;
@@ -97,7 +97,7 @@ public class JwtUtil {
 
 
 
-    public JwtResponseDto issueToken(Authentication authentication) {
+    public JwtResponse issueToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -129,7 +129,7 @@ public class JwtUtil {
                 .compact();
 
         redisUtil.saveAsValue(memberId, refreshToken, jwtProperties.getRefreshExpiredTime(), TimeUnit.MILLISECONDS);
-        return new JwtResponseDto(accessToken, refreshToken);
+        return new JwtResponse(accessToken, refreshToken);
     }
 
     public Authentication resolveToken(String token) {
@@ -147,6 +147,24 @@ public class JwtUtil {
                     claims.getSubject() // JWT에 유저 식별자(Subject)로 MemberId를 담았음
                 );
         return new UsernamePasswordAuthenticationToken(userDetails, token, authorities);
+    }
+
+    public JwtResponse reissueToken(String refreshToken) {
+        // Refresh Token 유효성 검증 (1차 검증)
+        validateTokenV2(refreshToken);
+
+        // Redis에서 저장된 Refresh Token과 비교 (2차 검증)
+        Claims claims = Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(refreshToken).getBody();
+        String memberId = claims.getSubject();
+        String storedRefreshToken = (String) redisUtil.get(memberId);
+        if (storedRefreshToken == null || !storedRefreshToken.equals(refreshToken)) {
+            throw new JwtCustomException(JwtErrorCode.INVALID_TOKEN);
+        }
+
+        // 재발급 후 redis에도 반영
+        JwtResponse jwtResponse = issueToken(resolveToken(refreshToken));
+        redisUtil.saveAsValue(memberId, jwtResponse.refreshToken(), jwtProperties.getRefreshExpiredTime(), TimeUnit.MILLISECONDS);
+        return jwtResponse;
     }
 
 }

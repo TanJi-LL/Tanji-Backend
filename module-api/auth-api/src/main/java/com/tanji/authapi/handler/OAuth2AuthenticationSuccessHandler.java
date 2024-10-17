@@ -1,7 +1,7 @@
 package com.tanji.authapi.handler;
 
 import com.tanji.authapi.jwt.JwtUtil;
-import com.tanji.authapi.dto.JwtResponseDto;
+import com.tanji.authapi.dto.response.JwtResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +28,12 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
             HttpServletResponse response,
             Authentication authentication
     ) throws IOException {
-        JwtResponseDto jwtResponseDto = jwtUtil.issueToken(authentication);
+        JwtResponse jwtResponse = jwtUtil.issueToken(authentication);
 
         String redirectUrl = UriComponentsBuilder
                 .fromUriString(oauth2CallbackUri)
-                .queryParam("accessToken", jwtResponseDto.accessToken())
-                .queryParam("refreshToken", jwtResponseDto.refreshToken())
+                .queryParam("accessToken", jwtResponse.accessToken())
+                .queryParam("refreshToken", jwtResponse.refreshToken())
                 .build()
                 .toUriString();
 

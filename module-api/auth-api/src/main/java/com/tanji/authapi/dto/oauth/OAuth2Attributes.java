@@ -1,4 +1,4 @@
-package com.tanji.authapi.dto;
+package com.tanji.authapi.dto.oauth;
 import com.tanji.authapi.exception.AuthException;
 import com.tanji.domainrds.domains.member.domain.Member;
 import com.tanji.domainrds.domains.member.domain.Role;
