@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +23,9 @@ public class MemberController {
      * 테스트용
      */
     @GetMapping("/{memberId}")
-    public ResponseEntity<Member> getMemberById(@PathVariable("memberId") Long memberId) {
+    public ResponseEntity<Member> getMemberById(@PathVariable("memberId") Long memberId, Principal principal) {
         log.info("Fetching member with ID: {}", memberId);
+        log.info("From principal: {}", principal.getName());
         Member member = memberService.findById(memberId);
         return ResponseEntity.ok(member);
     }

@@ -8,5 +8,4 @@ repositories {
 dependencies {
     implementation project(':module-domain:domain-rds')
     implementation project(':module-api:auth-api')
-    implementation 'org.springframework.boot:spring-boot-starter-security'
 }
