@@ -56,7 +56,7 @@ subprojects { // 서브 프로젝트
 }
 
 // common 모듈에 의존성이 없기 때문에 무겁지 않다.
-configure(subprojects.findAll { it.name != 'module-common' }) {
+configure(subprojects.findAll { it.name != 'module-common' && it.name != 'execute-app' }) {
 	dependencies {
 		implementation project(':module-common')
 	}
