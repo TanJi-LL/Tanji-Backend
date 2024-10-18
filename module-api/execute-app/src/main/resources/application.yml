@@ -21,4 +21,5 @@ spring:
 
 logging:
   level:
-    com.tanji: INFO
+    root: info  # 기본 로그 레벨을 info로 설정
+    com.tanji: debug  # com.tanji 패키지의 로그 레벨을 debug로 설정

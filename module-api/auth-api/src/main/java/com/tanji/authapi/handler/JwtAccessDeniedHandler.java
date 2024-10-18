@@ -17,15 +17,19 @@ import java.io.IOException;
 
 
 /**
- * 인가 과정에서 생길 exception을 처리
- * 인증된 사용자이지만 해당 리소스에 접근할 권한이 없는 경우
+ * 인가(Authorization) 과정에서 발생하는 exception을 처리
+ * 인증된 사용자이지만 해당 리소스에 대한 접근 권한이 없는 경우
  */
 @Slf4j
 @Component
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        log.info("JwtAccessDeniedHandler: AccessDeniedException", accessDeniedException);
+    public void handle(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AccessDeniedException accessDeniedException
+    ) throws IOException, ServletException {
+        log.warn("JwtAccessDeniedHandler: AccessDeniedException(AuthorizationException)", accessDeniedException);
         ResponseEntity<ApiResponse<Object>> fail = ApiResponse.fail(JwtErrorCode.FORBIDDEN_ACCESS.getHttpStatus(), JwtErrorCode.FORBIDDEN_ACCESS.getMessage());
         HttpResponseUtil.setErrorResponse(response, HttpStatus.FORBIDDEN, fail);
     }
