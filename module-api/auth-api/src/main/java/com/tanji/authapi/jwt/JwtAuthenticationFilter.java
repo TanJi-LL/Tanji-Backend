@@ -6,6 +6,7 @@ import com.tanji.commonmodule.response.ApiResponse;
 import com.tanji.commonmodule.utils.HttpResponseUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,6 +23,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
+/**
+ * JWT 토큰을 검증하고, 검증이 성공한 경우 인증 객체 Authentication를 생성
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -42,23 +47,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 setAuthentication(jwtToken);
             } catch (SecurityException | MalformedJwtException e) {
                 log.warn("잘못된 토큰: {}", e.getMessage());
-                httpResponseUtil.setErrorResponse(response, HttpStatus.UNAUTHORIZED, ApiResponse.fail(JwtErrorCode.INVALID_TOKEN.getHttpStatus(), "잘못된 토큰: " + e.getMessage()));
+                httpResponseUtil.setErrorResponse(response, HttpStatus.BAD_REQUEST, ApiResponse.fail(JwtErrorCode.INVALID_TOKEN.getHttpStatus(), "잘못된 토큰: " + e.getMessage()));
                 return;
             } catch (ExpiredJwtException e) {
                 log.warn("만료된 토큰: {}", e.getMessage());
                 httpResponseUtil.setErrorResponse(response, HttpStatus.UNAUTHORIZED, ApiResponse.fail(JwtErrorCode.TOKEN_EXPIRED.getHttpStatus(), "만료된 토큰: " + e.getMessage()));
                 return;
             } catch (UnsupportedJwtException e) {
-                log.warn("지원하지 않는 토큰: {}", e.getMessage());
-                httpResponseUtil.setErrorResponse(response, HttpStatus.UNAUTHORIZED, ApiResponse.fail(JwtErrorCode.INVALID_TOKEN.getHttpStatus(), "지원하지 않는 토큰: " + e.getMessage()));
+                log.warn("지원하지 않는 토큰: {}", e.getMessage());  // 지원되지 않는 알고리즘으로 생성된 토큰의 경우
+                httpResponseUtil.setErrorResponse(response, HttpStatus.UNAUTHORIZED, ApiResponse.fail(JwtErrorCode.UNSUPPORTED_JWT.getHttpStatus(), "지원하지 않는 토큰: " + e.getMessage()));
                 return;
             } catch (IllegalArgumentException e) {
                 log.warn("잘못된 토큰 인수: {}", e.getMessage());
-                httpResponseUtil.setErrorResponse(response, HttpStatus.UNAUTHORIZED, ApiResponse.fail(JwtErrorCode.INVALID_TOKEN.getHttpStatus(), "잘못된 토큰 인수: " + e.getMessage()));
+                httpResponseUtil.setErrorResponse(response, HttpStatus.BAD_REQUEST, ApiResponse.fail(JwtErrorCode.INVALID_TOKEN.getHttpStatus(), "잘못된 토큰 인수: " + e.getMessage()));
                 return;
-            } catch (UsernameNotFoundException e) {
-                log.warn("사용자를 찾을 수 없음: {}", e.getMessage());
-                httpResponseUtil.setErrorResponse(response, HttpStatus.UNAUTHORIZED, ApiResponse.fail(JwtErrorCode.NOT_FOUND_MEMBER.getHttpStatus(), "사용자를 찾을 수 없습니다: " + e.getMessage()));
+            } catch (SignatureException e) {
+                log.warn("서명 불일치: {}", e.getMessage());
+                httpResponseUtil.setErrorResponse(response, HttpStatus.UNAUTHORIZED, ApiResponse.fail(JwtErrorCode.INVALID_SIGNATURE.getHttpStatus(), "서명 불일치: " + e.getMessage()));
                 return;
             } catch (Exception e) {
                 log.error("예상치 못한 오류 발생: {}", e.getMessage());

@@ -2,5 +2,5 @@ bootJar { enabled = true }
 jar { enabled = false }
 dependencies {
 	implementation project(':module-api:auth-api')
-	implementation project(':module-api:test-api')
+	implementation project(':module-api:member-api')
 }
