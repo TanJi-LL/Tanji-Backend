@@ -54,6 +54,34 @@ public class JwtUtil {
         }
     }
 
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (ExpiredJwtException e) {
+            log.warn("만료된 토큰: {}", e.getMessage());
+            throw new JwtCustomException(JwtErrorCode.TOKEN_EXPIRED);
+        } catch (MalformedJwtException e) {
+            log.warn("잘못된 토큰: {}", e.getMessage());
+            throw new JwtCustomException(JwtErrorCode.INVALID_TOKEN);
+        } catch (UnsupportedJwtException e) {
+            log.warn("지원하지 않는 토큰: {}", e.getMessage());
+            throw new JwtCustomException(JwtErrorCode.UNSUPPORTED_JWT);
+        } catch (SignatureException e) {
+            log.warn("서명 불일치: {}", e.getMessage());
+            throw new JwtCustomException(JwtErrorCode.INVALID_SIGNATURE);
+        } catch (IllegalArgumentException e) {
+            log.warn("잘못된 토큰 인수: {}", e.getMessage());
+            throw new JwtCustomException(JwtErrorCode.INVALID_TOKEN);
+        } catch (Exception e) {
+            log.error("예상치 못한 오류 발생: {}", e.getMessage());
+            throw new RuntimeException("예상치 못한 오류 발생: " + e.getMessage());
+        }
+    }
+
     public boolean validateTokenV2(String token) {
         try {
             Jwts.parser()

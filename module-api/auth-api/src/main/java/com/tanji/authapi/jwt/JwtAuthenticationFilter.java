@@ -32,8 +32,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
-    private final HttpResponseUtil httpResponseUtil;
-
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -43,32 +41,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwtToken = jwtUtil.parseToken(request);
         if (jwtToken != null) {
             try {
-                jwtUtil.validateTokenV2(jwtToken);
+                jwtUtil.validateToken(jwtToken);
                 setAuthentication(jwtToken);
-            } catch (SecurityException | MalformedJwtException e) {
-                log.warn("잘못된 토큰: {}", e.getMessage());
-                httpResponseUtil.setErrorResponse(response, HttpStatus.BAD_REQUEST, ApiResponse.fail(JwtErrorCode.INVALID_TOKEN.getHttpStatus(), "잘못된 토큰: " + e.getMessage()));
-                return;
-            } catch (ExpiredJwtException e) {
-                log.warn("만료된 토큰: {}", e.getMessage());
-                httpResponseUtil.setErrorResponse(response, HttpStatus.UNAUTHORIZED, ApiResponse.fail(JwtErrorCode.TOKEN_EXPIRED.getHttpStatus(), "만료된 토큰: " + e.getMessage()));
-                return;
-            } catch (UnsupportedJwtException e) {
-                log.warn("지원하지 않는 토큰: {}", e.getMessage());  // 지원되지 않는 알고리즘으로 생성된 토큰의 경우
-                httpResponseUtil.setErrorResponse(response, HttpStatus.UNAUTHORIZED, ApiResponse.fail(JwtErrorCode.UNSUPPORTED_JWT.getHttpStatus(), "지원하지 않는 토큰: " + e.getMessage()));
-                return;
-            } catch (IllegalArgumentException e) {
-                log.warn("잘못된 토큰 인수: {}", e.getMessage());
-                httpResponseUtil.setErrorResponse(response, HttpStatus.BAD_REQUEST, ApiResponse.fail(JwtErrorCode.INVALID_TOKEN.getHttpStatus(), "잘못된 토큰 인수: " + e.getMessage()));
-                return;
-            } catch (SignatureException e) {
-                log.warn("서명 불일치: {}", e.getMessage());
-                httpResponseUtil.setErrorResponse(response, HttpStatus.UNAUTHORIZED, ApiResponse.fail(JwtErrorCode.INVALID_SIGNATURE.getHttpStatus(), "서명 불일치: " + e.getMessage()));
-                return;
             } catch (Exception e) {
-                log.error("예상치 못한 오류 발생: {}", e.getMessage());
-                httpResponseUtil.setErrorResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, ApiResponse.fail(CommonErrorCode.INTERNAL_SERVER_ERROR.getHttpStatus(), "예상치 못한 오류 발생: " + e.getMessage()));
-                return;
+                throw e;
             }
         }
         filterChain.doFilter(request, response);

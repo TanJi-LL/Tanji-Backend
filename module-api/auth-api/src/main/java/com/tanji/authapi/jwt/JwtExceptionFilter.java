@@ -21,6 +21,7 @@ import java.io.IOException;
 public class JwtExceptionFilter extends OncePerRequestFilter {
 	private final HttpResponseUtil httpResponseUtil;
 
+	// JwtExceptionFilter.java
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 		try {
@@ -32,10 +33,9 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 					e.getBaseErrorCode().getHttpStatus(),
 					ApiResponse.fail(e.getBaseErrorCode().getHttpStatus(), e.getMessage())
 			);
-			return;
+			return; // Return to prevent further processing
 		} catch (Exception e) {
 			log.error("예기치 않은 오류 발생", e);
-			// 내부 서버 오류로 응답 설정
 			httpResponseUtil.setErrorResponse(
 					response,
 					HttpStatus.INTERNAL_SERVER_ERROR,
@@ -43,4 +43,5 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 			);
 		}
 	}
+
 }
