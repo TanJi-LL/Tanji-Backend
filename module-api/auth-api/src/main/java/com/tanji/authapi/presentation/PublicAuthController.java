@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import static com.tanji.authapi.response.AuthSuccessStatus.REISSUE_TOKEN_SUCCESS;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/public/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class PublicAuthController {
 
     private final AuthService authService;
 

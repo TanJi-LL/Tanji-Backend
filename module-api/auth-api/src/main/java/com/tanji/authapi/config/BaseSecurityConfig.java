@@ -54,7 +54,6 @@ public class BaseSecurityConfig {
                                     "/oauth2/authorization/**",
                                     "/login/oauth2/code/**",
                                     "/oauth2/**",
-                                    "/api/v1/auth",
                                     "/api/v1/public/**"
                         ).permitAll() // 공개 API 경로
                         .anyRequest().authenticated() // 나머지 요청은 인증 필요
