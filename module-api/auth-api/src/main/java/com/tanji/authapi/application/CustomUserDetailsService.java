@@ -25,6 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Member member = memberQueryService.findById(Long.valueOf(username))
                 .orElseThrow(() -> new UsernameNotFoundException("id가 " + username + "인 유저는 존재하지 않습니다."));
 
+        
         return new OAuth2UserImpl(
                 Collections.singleton(new SimpleGrantedAuthority(member.getRole().name())),
                 createAttributes(member),

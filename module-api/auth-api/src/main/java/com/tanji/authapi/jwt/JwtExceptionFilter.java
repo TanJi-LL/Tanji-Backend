@@ -20,8 +20,6 @@ import java.io.IOException;
 @Component
 public class JwtExceptionFilter extends OncePerRequestFilter {
 	private final HttpResponseUtil httpResponseUtil;
-
-	// JwtExceptionFilter.java
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 		try {
@@ -33,7 +31,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 					e.getBaseErrorCode().getHttpStatus(),
 					ApiResponse.fail(e.getBaseErrorCode().getHttpStatus(), e.getMessage())
 			);
-			return; // Return to prevent further processing
+			return;
 		} catch (Exception e) {
 			log.error("예기치 않은 오류 발생", e);
 			httpResponseUtil.setErrorResponse(
@@ -43,5 +41,4 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 			);
 		}
 	}
-
 }

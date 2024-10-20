@@ -151,7 +151,7 @@ public class JwtUtil {
 
     public JwtResponse reissueToken(String refreshToken) {
         // Refresh Token 유효성 검증 (1차 검증)
-        validateTokenV2(refreshToken);
+        validateToken(refreshToken);
 
         // Redis에서 저장된 Refresh Token과 비교 (2차 검증)
         Claims claims = Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(refreshToken).getBody();
