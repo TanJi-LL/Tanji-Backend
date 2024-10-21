@@ -3,6 +3,7 @@ package com.tanji.memberapi.application;
 import com.tanji.domainrds.domains.member.domain.Member;
 import com.tanji.domainrds.domains.member.service.MemberQueryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
