@@ -27,6 +27,15 @@ public class RedisUtil {
     }
 
     /**
+     * 만료 시간 없이 값을 Redis에 영구적으로 저장하는 메서드.
+     * @param key Redis에 저장할 키.
+     * @param val Redis에 저장할 값.
+     */
+    public void saveAsPermanentValue(String key, Object val) {
+        redisTemplate.opsForValue().set(key, val);
+    }
+
+    /**
      * Redis에 해당 키가 존재하는지 확인하는 메서드.
      *
      * @param key Redis에서 존재 여부를 확인할 키.
