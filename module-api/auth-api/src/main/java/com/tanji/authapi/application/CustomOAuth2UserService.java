@@ -49,11 +49,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private Member getOrSave(OAuth2Attributes oauth2Attributes) {
-        System.out.println("getOrSave()");
         // 먼저 회원 조회
         return memberQueryService.findBySocialId(String.valueOf(oauth2Attributes.socialId()))
                 .orElseGet(() -> {
-                    System.out.println("hey");
                     // 회원이 없는 경우에만 저장
                     Member newMember = oauth2Attributes.toEntity();
                     Member savedMember = memberCommandService.saveMember(newMember);
