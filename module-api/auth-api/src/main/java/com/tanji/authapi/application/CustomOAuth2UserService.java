@@ -49,16 +49,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private Member getOrSave(OAuth2Attributes oauth2Attributes) {
+        System.out.println("getOrSave()");
         // 먼저 회원 조회
         return memberQueryService.findBySocialId(String.valueOf(oauth2Attributes.socialId()))
                 .orElseGet(() -> {
+                    System.out.println("hey");
                     // 회원이 없는 경우에만 저장
                     Member newMember = oauth2Attributes.toEntity();
-                    Member savedMember = memberCommandService.saveMember(newMember); // 먼저 저장하여 ID 생성
+                    Member savedMember = memberCommandService.saveMember(newMember);
 
                     // 목마름과 배고픔 Redis에 초기화
-                    String key = "member:" + newMember.getId() + ":status";
-                    Map<String, Integer> statusMap = new HashMap<>(Map.of("thirsty", 100, "hunger", 100));
+                    String key = "member:" + savedMember.getId() + ":status";
+                    Map<String, Integer> statusMap = new HashMap<>();
+                    statusMap.put("feed", 3);  // 먹이 수
+                    statusMap.put("water", 3);  // 물 수
+                    statusMap.put("thirsty", 100);  // 목마름
+                    statusMap.put("hunger", 100);  // 배고픔
                     redisUtil.saveAsPermanentValue(key, statusMap);
                     return savedMember;
                 });
