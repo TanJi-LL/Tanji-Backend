@@ -20,7 +20,6 @@ public class Member extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-
     private String provider;
 
     @Column(nullable = false, name = "social_id")
