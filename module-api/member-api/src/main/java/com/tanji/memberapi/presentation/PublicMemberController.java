@@ -20,10 +20,10 @@ public class PublicMemberController {
     /**
      * 테스트용
      */
-    @GetMapping("/{memberId}")
-    public ResponseEntity<Member> getMemberById(@PathVariable("memberId") Long memberId) {
-        log.info("Fetching member with ID: {}", memberId);
-        Member member = memberService.findById(memberId);
-        return ResponseEntity.ok(member);
-    }
+//    @GetMapping("/{memberId}")
+//    public ResponseEntity<Member> getMemberById(@PathVariable("memberId") Long memberId) {
+//        log.info("Fetching member with ID: {}", memberId);
+//        Member member = memberService.findById(memberId);
+//        return ResponseEntity.ok(member);
+//    }
 }

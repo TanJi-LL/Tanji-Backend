@@ -21,11 +21,11 @@ public class MemberController {
     /**
      * 테스트용
      */
-    @GetMapping
-    public ResponseEntity<Member> getMemberById(@RequestParam("memberId") Long memberId, Authentication authentication) {
-        log.info("Path Variable ID: {}", memberId);
-        log.info("Authentication Get Name: {}", authentication.getName());
-        Member member = memberService.findById(memberId);
-        return ResponseEntity.ok(member);
-    }
+//    @GetMapping
+//    public ResponseEntity<Member> getMemberById(@RequestParam("memberId") Long memberId, Authentication authentication) {
+//        log.info("Path Variable ID: {}", memberId);
+//        log.info("Authentication Get Name: {}", authentication.getName());
+//        Member member = memberService.findById(memberId);
+//        return ResponseEntity.ok(member);
+//    }
 }
