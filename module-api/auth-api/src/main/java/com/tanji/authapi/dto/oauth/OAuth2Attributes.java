@@ -1,5 +1,5 @@
 package com.tanji.authapi.dto.oauth;
-import com.tanji.authapi.exception.AuthException;
+import com.tanji.authapi.exception.AuthCustomException;
 import com.tanji.domainrds.domains.member.domain.Member;
 import com.tanji.domainrds.domains.member.domain.Role;
 
@@ -31,7 +31,7 @@ public record OAuth2Attributes(
         } else if ("google".equals(socialName)) {
             return ofGoogle(userNameAttributeName, attributes);
         }
-        throw new AuthException(ILLEGAL_REGISTRATION_ID);
+        throw new AuthCustomException(ILLEGAL_REGISTRATION_ID);
     }
 
     private static OAuth2Attributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {

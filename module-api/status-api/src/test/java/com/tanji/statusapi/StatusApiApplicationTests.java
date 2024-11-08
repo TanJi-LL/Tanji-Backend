@@ -1,4 +1,4 @@
-package com.juseungl.statusapi;
+package com.tanji.statusapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -3,4 +3,5 @@ jar { enabled = false }
 dependencies {
 	implementation project(':module-api:auth-api')
 	implementation project(':module-api:member-api')
+	implementation project(':module-api:status-api')
 }

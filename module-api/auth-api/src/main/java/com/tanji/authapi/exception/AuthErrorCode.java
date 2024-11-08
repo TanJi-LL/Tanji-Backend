@@ -7,13 +7,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.HttpStatus.*;
+
 @Getter
 @RequiredArgsConstructor
 public enum AuthErrorCode implements BaseErrorCode {
     UNAUTHORIZED_MEMBER(UNAUTHORIZED, "인증되지 않은 유저입니다. 로그인 후 이용해주세요."),
-    ILLEGAL_REGISTRATION_ID(NOT_ACCEPTABLE, "잘못된 Registration ID 입니다.");
+    ILLEGAL_REGISTRATION_ID(NOT_ACCEPTABLE, "잘못된 Registration ID 입니다."),
+    MEMBER_NOT_FOUND(NOT_FOUND, "존재하지 않는 회원입니다.");;
 
 
     private final HttpStatus httpStatus;
