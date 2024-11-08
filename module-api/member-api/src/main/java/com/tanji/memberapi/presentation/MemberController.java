@@ -22,7 +22,6 @@ public class MemberController {
      * 테스트용
      */
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Member> getMemberById(@RequestParam("memberId") Long memberId, Authentication authentication) {
         log.info("Path Variable ID: {}", memberId);
         log.info("Authentication Get Name: {}", authentication.getName());

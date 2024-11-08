@@ -59,10 +59,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     // 목마름과 배고픔 Redis에 초기화
                     String key = "member:" + savedMember.getId() + ":status";
                     Map<String, Integer> statusMap = new HashMap<>();
-                    statusMap.put("feed", 3);  // 먹이 수
-                    statusMap.put("water", 3);  // 물 수
-                    statusMap.put("thirsty", 100);  // 목마름
-                    statusMap.put("hunger", 100);  // 배고픔
+                    statusMap.put("feed", 1);  // 먹이 수
+                    statusMap.put("water", 1);  // 물 수
+                    statusMap.put("thirsty", 50);  // 목마름
+                    statusMap.put("hungry", 50);  // 배고픔
                     redisUtil.saveAsPermanentValue(key, statusMap);
                     return savedMember;
                 });

@@ -6,8 +6,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(':module-domain:domain-rds')
     implementation project(':module-domain:domain-redis')
+    implementation project(':module-domain:domain-rds')
     implementation project(':module-api:auth-api')
-    implementation project(':module-common')
 }

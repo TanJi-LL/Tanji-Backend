@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: status-api
+
+logging:
+  level:
+    root: info
+    com.tanji: debug
