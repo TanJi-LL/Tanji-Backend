@@ -6,6 +6,7 @@ import com.google.api.services.gmail.model.History;
 import com.google.api.services.gmail.model.ListHistoryResponse;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
+import com.tanji.authapi.exception.AuthCustomException;
 import com.tanji.domainrds.domains.member.domain.Member;
 import com.tanji.mailapi.exception.MailCustomException;
 import com.tanji.mailapi.exception.MailErrorCode;
@@ -19,8 +20,9 @@ import java.math.BigInteger;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
+import static com.tanji.authapi.exception.AuthErrorCode.UNAUTHORIZED_MEMBER;
+import static com.tanji.mailapi.exception.MailErrorCode.INSUFFICIENT_PERMISSION;
 import static com.tanji.mailapi.exception.MailErrorCode.MAIL_FETCH_FAILED;
-import static com.tanji.mailapi.exception.MailErrorCode.UNAUTHORIZED_MEMBER;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -53,9 +55,9 @@ public class GmailFetchService {
                 BigInteger newHistoryId = getLatestHistoryId(gmail); // 가장 최근 historyId로 업데이트
                 member.updateLastHistoryId(newHistoryId.add(BigInteger.ONE));
                 return 0;
-            } else if (e.getStatusCode() == 430) { // 지메일 접근 권한 허용하지 않은 멤버인 경우
+            } else if (e.getStatusCode() == 403) { // 지메일 접근 권한 허용하지 않은 멤버인 경우
                 log.error("gmail 권한 에러: {}", e.getMessage());
-                throw new MailCustomException(UNAUTHORIZED_MEMBER);
+                throw new MailCustomException(INSUFFICIENT_PERMISSION);
             }
             else {
                 log.error("gmail 예상치 못한 에러: {}", e.getMessage());

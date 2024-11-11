@@ -12,8 +12,8 @@ import static org.springframework.http.HttpStatus.*;
 @Getter
 @RequiredArgsConstructor
 public enum MailErrorCode implements BaseErrorCode {
-    MAIL_FETCH_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "메일 정보를 가져오는 중 오류가 발생했습니다."),
-    UNAUTHORIZED_MEMBER(FORBIDDEN, "메일에 접근할 권한이 없습니다.");
+    MAIL_FETCH_FAILED(INTERNAL_SERVER_ERROR, "메일 정보를 가져오는 중 오류가 발생했습니다."),
+    INSUFFICIENT_PERMISSION(FORBIDDEN, "메일에 접근할 권한이 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
