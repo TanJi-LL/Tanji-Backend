@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Getter
@@ -35,6 +36,9 @@ public class Member extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    @Column(name = "last_history_id")
+    private BigInteger lastHistoryId;
+
     @Column(name = "deleted_at") // 삭제 시각 저장
     private LocalDateTime deletedAt = null;
 
@@ -45,5 +49,9 @@ public class Member extends BaseTimeEntity {
         this.socialId = socialId;
         this.email = email;
         this.role = role;
+    }
+
+    public void updateLastHistoryId(BigInteger lastHistoryId) {
+        this.lastHistoryId = lastHistoryId;
     }
 }

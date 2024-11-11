@@ -84,7 +84,8 @@ public class BaseSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring() // 특정 경로를 보안 필터 체인에서 아예 제외
-                .requestMatchers("/actuator/health","/error", "/favicon.ico", "/swagger-ui/**", "/api-docs/**");
+                .requestMatchers("/actuator/health","/error", "/favicon.ico", "/swagger-ui/**", "/api-docs/**",
+                        "/api/v1/mails/**");
     }
 
 }
