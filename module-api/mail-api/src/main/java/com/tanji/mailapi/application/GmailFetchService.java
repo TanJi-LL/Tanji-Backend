@@ -6,10 +6,8 @@ import com.google.api.services.gmail.model.History;
 import com.google.api.services.gmail.model.ListHistoryResponse;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
-import com.tanji.authapi.exception.AuthCustomException;
 import com.tanji.domainrds.domains.member.domain.Member;
 import com.tanji.mailapi.exception.MailCustomException;
-import com.tanji.mailapi.exception.MailErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +18,6 @@ import java.math.BigInteger;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
-import static com.tanji.authapi.exception.AuthErrorCode.UNAUTHORIZED_MEMBER;
 import static com.tanji.mailapi.exception.MailErrorCode.INSUFFICIENT_PERMISSION;
 import static com.tanji.mailapi.exception.MailErrorCode.MAIL_FETCH_FAILED;
 
@@ -33,7 +30,7 @@ public class GmailFetchService {
 //    private static final String TRASH_LABEL = "TRASH";
 
     @Transactional
-    public long getTrashHistoryCount(Member member) throws IOException, GeneralSecurityException, MailCustomException {
+    public int getTrashHistoryCount(Member member) throws IOException, GeneralSecurityException, MailCustomException {
         Gmail gmail = gmailService.getGmailService(member);
         BigInteger lastHistoryId = member.getLastHistoryId();
 
