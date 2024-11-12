@@ -18,7 +18,7 @@ public class MemberCommandService {
         return memberRepository.save(member);
     }
 
-    public void updateLastHistoryId(Member member, BigInteger lastHistoryId) {
-        member.updateLastHistoryId(lastHistoryId);
-    }
+//    public void updateLastHistoryId(Member member, BigInteger lastHistoryId) {
+//        member.updateLastHistoryId(lastHistoryId);
+//    }
 }

@@ -73,7 +73,8 @@ public class TanjiStatusService {
         Member member = memberQueryService.findById(memberId)
                 .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
 
-        int trashHistoryCount = gmailFetchService.getTrashHistoryCount(member);
+//        int trashHistoryCount = gmailFetchService.getTrashHistoryCount(member);
+        int trashHistoryCount = gmailFetchService.getTrashHistoryCount(memberId);
 
         String key = "member:" + member.getId() + ":status";
         Map<String, Integer> statusMap = (Map<String, Integer>) redisUtil.get(key);

@@ -7,7 +7,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.gmail.Gmail;
 import com.tanji.authapi.exception.AuthCustomException;
-import com.tanji.domainrds.domains.member.domain.Member;
 import com.tanji.mailapi.utils.GmailProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,10 +30,10 @@ public class GmailService {
     private final OAuth2AuthorizedClientService authorizedClientService;
     private final GmailProperties gmailProperties;
 
-    public Gmail getGmailService(Member member) throws GeneralSecurityException, IOException {
+    public Gmail getGmailService(Long memberId) throws GeneralSecurityException, IOException {
         // Gmail 클라이언트 생성
         return new Gmail.Builder(GoogleNetHttpTransport.newTrustedTransport(),
-                JSON_FACTORY, getGoogleCredential(member))
+                JSON_FACTORY, getGoogleCredential(memberId))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }
@@ -42,11 +41,11 @@ public class GmailService {
     /**
      * Credential(Google API 인증 자격 증명) 객체 생성
      */
-    public Credential getGoogleCredential(Member member) throws GeneralSecurityException, IOException {
+    public Credential getGoogleCredential(Long memberId) throws GeneralSecurityException, IOException {
         // OAuth2 인증 클라이언트 정보 조회
         OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
                 "google",
-                String.valueOf(member.getId())
+                String.valueOf(memberId)
         );
 
         if (authorizedClient == null || authorizedClient.getAccessToken() == null) {

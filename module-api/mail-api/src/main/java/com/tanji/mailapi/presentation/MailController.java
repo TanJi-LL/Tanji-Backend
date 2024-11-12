@@ -1,10 +1,6 @@
 package com.tanji.mailapi.presentation;
 
-import com.tanji.authapi.exception.AuthCustomException;
-import com.tanji.authapi.exception.AuthErrorCode;
 import com.tanji.authapi.utils.MemberUtil;
-import com.tanji.domainrds.domains.member.domain.Member;
-import com.tanji.domainrds.domains.member.service.MemberQueryService;
 import com.tanji.mailapi.application.GmailFetchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -27,14 +22,12 @@ import java.security.Principal;
 public class MailController {
 
     private final GmailFetchService gmailFetchService;
-    private final MemberQueryService memberQueryService;
+//    private final MemberQueryService memberQueryService;
 
     @Operation(summary = "삭제한 메일 수 조회1 (테스트용)")
     @GetMapping("/test/trash")
     public long getTrashCount(Principal principal) throws GeneralSecurityException, IOException {
         Long memberId = MemberUtil.getMemberId(principal);
-        Member member = memberQueryService.findById(memberId)
-                .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
-        return gmailFetchService.getTrashHistoryCount(member);
+        return gmailFetchService.getTrashHistoryCount(memberId);
     }
 }
