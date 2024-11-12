@@ -7,6 +7,7 @@ import com.google.api.services.gmail.model.ListHistoryResponse;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
 import com.tanji.domainrds.domains.member.domain.Member;
+import com.tanji.domainrds.domains.member.service.MemberCommandService;
 import com.tanji.mailapi.exception.MailCustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +28,9 @@ import static com.tanji.mailapi.exception.MailErrorCode.MAIL_FETCH_FAILED;
 public class GmailFetchService {
 
     private final GmailService gmailService;
+    private final MemberCommandService memberCommandService;
 //    private static final String TRASH_LABEL = "TRASH";
 
-    @Transactional
     public int getTrashHistoryCount(Member member) throws IOException, GeneralSecurityException, MailCustomException {
         Gmail gmail = gmailService.getGmailService(member);
         BigInteger lastHistoryId = member.getLastHistoryId();
@@ -44,7 +45,7 @@ public class GmailFetchService {
 
             // 최신 historyId 업데이트
             BigInteger latestHistoryId = messagesResponse.getHistoryId();
-            member.updateLastHistoryId(latestHistoryId.add(BigInteger.ONE));
+            memberCommandService.updateLastHistoryId(member, latestHistoryId);
 
             return histories.size();
         } catch (GoogleJsonResponseException e) {

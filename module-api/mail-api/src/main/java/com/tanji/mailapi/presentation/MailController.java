@@ -37,12 +37,4 @@ public class MailController {
                 .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
         return gmailFetchService.getTrashHistoryCount(member);
     }
-
-    @Operation(summary = "삭제한 메일 수 조회2 (테스트용)")
-    @GetMapping("/test/trash2")
-    public long getTrashCount2(@RequestParam Long memberId) throws GeneralSecurityException, IOException {
-        Member member = memberQueryService.findById(memberId)
-                .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
-        return gmailFetchService.getTrashHistoryCount(member);
-    }
 }

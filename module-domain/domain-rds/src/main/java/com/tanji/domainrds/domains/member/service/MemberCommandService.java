@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -14,5 +16,9 @@ public class MemberCommandService {
 
     public Member saveMember(Member member) {
         return memberRepository.save(member);
+    }
+
+    public void updateLastHistoryId(Member member, BigInteger lastHistoryId) {
+        member.updateLastHistoryId(lastHistoryId);
     }
 }
