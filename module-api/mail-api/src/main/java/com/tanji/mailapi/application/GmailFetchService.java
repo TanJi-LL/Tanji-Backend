@@ -61,8 +61,6 @@ public class GmailFetchService {
                 BigInteger newHistoryId = getLatestHistoryId(gmail);
                 statusMap.put("lastHistoryId", newHistoryId.add(BigInteger.ONE));
                 redisUtil.saveAsPermanentValue(key, statusMap);
-                log.error(e.toString());
-                log.info("가장 최신 historyId로 업데이트: {}", newHistoryId);
                 return 0;
             } else if (e.getStatusCode() == 403) { // 지메일 접근 권한 허용하지 않은 멤버인 경우
                 log.error("gmail 권한 에러: {}", e.getMessage());
