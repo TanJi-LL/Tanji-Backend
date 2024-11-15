@@ -2,13 +2,17 @@ package com.tanji.statusapi.application;
 
 import com.tanji.authapi.exception.AuthCustomException;
 import com.tanji.authapi.exception.AuthErrorCode;
+import com.tanji.mailapi.application.GmailFetchService;
 import com.tanji.statusapi.dto.response.GetTanjiStatusResponse;
 import com.tanji.domainrds.domains.member.domain.Member;
 import com.tanji.domainrds.domains.member.service.MemberQueryService;
 import com.tanji.domainredis.util.RedisUtil;
+import com.tanji.statusapi.dto.response.GetWaterResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Map;
 
 @Component
@@ -16,6 +20,7 @@ import java.util.Map;
 public class TanjiStatusService {
     private final RedisUtil redisUtil;
     private final MemberQueryService memberQueryService;
+    private final GmailFetchService gmailFetchService;
 
     public GetTanjiStatusResponse getTanjiStatus(Long memberId) {
         Member member = memberQueryService.findById(memberId)
@@ -62,5 +67,23 @@ public class TanjiStatusService {
                 statusMap.getOrDefault("feed", 0),
                 statusMap.getOrDefault("water", 0)
         );
+    }
+
+    public GetWaterResponse refreshWater(Long memberId) throws GeneralSecurityException, IOException {
+        Member member = memberQueryService.findById(memberId)
+                .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
+
+//        int trashHistoryCount = gmailFetchService.getTrashHistoryCount(member);
+        int trashHistoryCount = gmailFetchService.getTrashHistoryCount(memberId);
+
+        String key = "member:" + member.getId() + ":status";
+        Map<String, Integer> statusMap = (Map<String, Integer>) redisUtil.get(key);
+
+        int currentFeed = statusMap.getOrDefault("water", 0);
+        statusMap.put("water", currentFeed + trashHistoryCount);
+
+        redisUtil.saveAsPermanentValue(key, statusMap);
+
+        return new GetWaterResponse(statusMap.getOrDefault("water", 0));
     }
 }
