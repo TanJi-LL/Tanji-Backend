@@ -9,12 +9,14 @@ import com.tanji.domainrds.domains.member.service.MemberQueryService;
 import com.tanji.domainredis.util.RedisUtil;
 import com.tanji.statusapi.dto.response.GetWaterResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Map;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class TanjiStatusService {
@@ -22,10 +24,13 @@ public class TanjiStatusService {
     private final MemberQueryService memberQueryService;
     private final GmailFetchService gmailFetchService;
 
-    public GetTanjiStatusResponse getTanjiStatus(Long memberId) {
+    public GetTanjiStatusResponse getTanjiStatus(Long memberId) throws GeneralSecurityException, IOException {
         Member member = memberQueryService.findById(memberId)
                 .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
         String key = "member:" + member.getId() + ":status";
+
+        // 메일 마지막 기록 ID Redis에 업데이트
+        int trashHistoryCount = gmailFetchService.getTrashHistoryCount(member.getId());
 
         // Redis에서 상태 맵 가져오기
         Map<String, Integer> statusMap = (Map<String, Integer>) redisUtil.get(key);
@@ -34,6 +39,12 @@ public class TanjiStatusService {
         if (statusMap == null) {
             throw new IllegalStateException("상태 정보를 찾을 수 없습니다.");
         }
+
+        // 물 상태 업데이트
+        int currentFeed = statusMap.getOrDefault("water", 0);
+        statusMap.put("water", currentFeed + trashHistoryCount);
+
+        redisUtil.saveAsPermanentValue(key, statusMap);
 
         // DTO로 변환
         return GetTanjiStatusResponse.toDto(
@@ -74,11 +85,13 @@ public class TanjiStatusService {
                 .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
 
 //        int trashHistoryCount = gmailFetchService.getTrashHistoryCount(member);
+        // 메일 마지막 기록 ID Redis에 업데이트
         int trashHistoryCount = gmailFetchService.getTrashHistoryCount(memberId);
 
         String key = "member:" + member.getId() + ":status";
         Map<String, Integer> statusMap = (Map<String, Integer>) redisUtil.get(key);
 
+        // 물 상태 업데이트
         int currentFeed = statusMap.getOrDefault("water", 0);
         statusMap.put("water", currentFeed + trashHistoryCount);
 
