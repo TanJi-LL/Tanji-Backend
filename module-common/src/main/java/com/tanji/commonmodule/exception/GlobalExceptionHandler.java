@@ -16,6 +16,11 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(MailCustomException.class)
+    protected ResponseEntity<ApiResponse<Void>> handleMailCustomException(MailCustomException e) {
+        return e.getBaseErrorCode().toResponseEntity();
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ApiResponse<Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return ApiResponse.fail(CommonErrorCode.INVALID_PARAMETER.getHttpStatus(), e.getMessage());
