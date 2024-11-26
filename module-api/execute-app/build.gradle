@@ -5,4 +5,5 @@ dependencies {
 	implementation project(':module-api:member-api')
 	implementation project(':module-api:status-api')
 	implementation project(':module-api:mail-api')
+	implementation project(':module-api:mission-api')
 }
