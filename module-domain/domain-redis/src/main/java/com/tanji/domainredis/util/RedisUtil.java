@@ -1,11 +1,15 @@
 package com.tanji.domainredis.util;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class RedisUtil {
@@ -33,6 +37,18 @@ public class RedisUtil {
      */
     public void saveAsPermanentValue(String key, Object val) {
         redisTemplate.opsForValue().set(key, val);
+    }
+
+    /**
+     * 자정을 만료 시간으로 값을 Redis에 저장하는 메서드.
+     * @param key Redis 키
+     * @param value 저장할 값
+     */
+    public void saveAsMidnightTTL(String key, Object value) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime midnight = now.plusDays(1).toLocalDate().atStartOfDay();
+        long seconds = Duration.between(now, midnight).getSeconds();
+        redisTemplate.opsForValue().set(key, value, seconds, TimeUnit.SECONDS);
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.tanji.commonmodule.exception;
+package com.tanji.mailapi.exception;
 
 import com.tanji.commonmodule.exception.BaseErrorCode;
 import com.tanji.commonmodule.response.ApiResponse;

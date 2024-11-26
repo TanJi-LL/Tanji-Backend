@@ -7,7 +7,7 @@ import com.google.api.services.gmail.model.ListHistoryResponse;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
 import com.tanji.domainredis.util.RedisUtil;
-import com.tanji.commonmodule.exception.MailCustomException;
+import com.tanji.mailapi.exception.MailCustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,8 +18,8 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Map;
 
-import static com.tanji.commonmodule.exception.MailErrorCode.INSUFFICIENT_PERMISSION;
-import static com.tanji.commonmodule.exception.MailErrorCode.MAIL_FETCH_FAILED;
+import static com.tanji.mailapi.exception.MailErrorCode.INSUFFICIENT_PERMISSION;
+import static com.tanji.mailapi.exception.MailErrorCode.MAIL_FETCH_FAILED;
 
 @Slf4j
 @RequiredArgsConstructor
