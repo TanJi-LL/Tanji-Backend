@@ -64,6 +64,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     statusMap.put("thirsty", 50);  // 목마름
                     statusMap.put("hungry", 50);  // 배고픔
                     redisUtil.saveAsPermanentValue(key, statusMap);
+
+                    // 누적 메일 삭제 수 Redis에 초기화
+                    String countKey = "member:" + savedMember.getId() + ":delete:count";
+                    redisUtil.saveAsPermanentValue(countKey, 0);
+
                     return savedMember;
                 });
     }
