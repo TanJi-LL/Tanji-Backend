@@ -83,33 +83,6 @@ public class TanjiStatusService {
         );
     }
 
-    public GetWaterResponse refreshWater(Long memberId) throws GeneralSecurityException, IOException {
-        Member member = memberQueryService.findById(memberId)
-                .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
-
-        // 메일 마지막 기록 ID Redis에 업데이트
-        int trashHistoryCount = gmailFetchService.getTrashHistoryCount(memberId);
-
-        String statusKey = "member:" + member.getId() + ":status";
-        Map<String, Integer> statusMap = (Map<String, Integer>) redisUtil.get(statusKey);
-
-        // 물 상태 업데이트
-        int currentFeed = statusMap.getOrDefault("water", 0);
-        statusMap.put("water", currentFeed + trashHistoryCount);
-        redisUtil.saveAsPermanentValue(statusKey, statusMap);
-
-        // 누적 메일 삭제 수 업데이트
-        String countKey = "member:" + member.getId() + ":delete:count";
-        Integer currentCount = (Integer) redisUtil.get(countKey);
-
-        if (currentCount == null) {
-            currentCount = 0;
-        }
-        redisUtil.saveAsPermanentValue(countKey, currentCount + trashHistoryCount);
-
-        return new GetWaterResponse(statusMap.getOrDefault("water", 0));
-    }
-
     public GetTanjiStatusResponse waterTanji(Long memberId) {
         Member member = memberQueryService.findById(memberId)
                 .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
@@ -135,5 +108,30 @@ public class TanjiStatusService {
                 statusMap.getOrDefault("feed", 0),
                 statusMap.getOrDefault("water", 0)
         );
+    }
+
+    public GetWaterResponse refreshWater(Long memberId) throws GeneralSecurityException, IOException {
+        Member member = memberQueryService.findById(memberId)
+                .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
+
+        // 메일 마지막 기록 ID Redis에 업데이트
+        int trashHistoryCount = gmailFetchService.getTrashHistoryCount(memberId);
+
+        String statusKey = "member:" + member.getId() + ":status";
+        Map<String, Integer> statusMap = (Map<String, Integer>) redisUtil.get(statusKey);
+
+        // 물 상태 업데이트
+        int currentFeed = statusMap.getOrDefault("water", 0);
+        statusMap.put("water", currentFeed + trashHistoryCount);
+        redisUtil.saveAsPermanentValue(statusKey, statusMap);
+
+        // 누적 메일 삭제 수 업데이트
+        Double currentScore = redisUtil.getZSetScore("ranking:delete", "member:" + member.getId());
+        if (currentScore == null) {
+            currentScore = 0.0;
+        }
+        redisUtil.saveToZSet("ranking:delete", "member:" + member.getId(), (int) (currentScore + trashHistoryCount));
+
+        return new GetWaterResponse(statusMap.getOrDefault("water", 0));
     }
 }
