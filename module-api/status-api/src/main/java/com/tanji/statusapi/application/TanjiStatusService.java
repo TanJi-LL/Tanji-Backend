@@ -2,12 +2,13 @@ package com.tanji.statusapi.application;
 
 import com.tanji.authapi.exception.AuthCustomException;
 import com.tanji.authapi.exception.AuthErrorCode;
-import com.tanji.mailapi.application.GmailFetchService;
-import com.tanji.statusapi.dto.response.GetTanjiStatusResponse;
 import com.tanji.domainrds.domains.member.domain.Member;
 import com.tanji.domainrds.domains.member.service.MemberQueryService;
 import com.tanji.domainredis.util.RedisUtil;
+import com.tanji.mailapi.application.GmailFetchService;
+import com.tanji.statusapi.dto.response.GetTanjiStatusResponse;
 import com.tanji.statusapi.dto.response.GetWaterResponse;
+import com.tanji.statusapi.exception.TanjiStatusException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Map;
+
+import static com.tanji.statusapi.exception.TanjiStatusErrorCode.INSUFFICIENT_WATER;
 
 @Slf4j
 @Component
@@ -29,8 +32,8 @@ public class TanjiStatusService {
                 .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
         String key = "member:" + member.getId() + ":status";
 
-        // 메일 마지막 기록 ID Redis에 업데이트
-        int trashHistoryCount = gmailFetchService.getTrashHistoryCount(member.getId());
+//        // 메일 마지막 기록 ID Redis에 업데이트
+//        int trashHistoryCount = gmailFetchService.getTrashHistoryCount(member.getId());
 
         // Redis에서 상태 맵 가져오기
         Map<String, Integer> statusMap = (Map<String, Integer>) redisUtil.get(key);
@@ -40,11 +43,11 @@ public class TanjiStatusService {
             throw new IllegalStateException("상태 정보를 찾을 수 없습니다.");
         }
 
-        // 물 상태 업데이트
-        int currentFeed = statusMap.getOrDefault("water", 0);
-        statusMap.put("water", currentFeed + trashHistoryCount);
-
-        redisUtil.saveAsPermanentValue(key, statusMap);
+//        // 물 상태 업데이트
+//        int currentFeed = statusMap.getOrDefault("water", 0);
+//        statusMap.put("water", currentFeed + trashHistoryCount);
+//
+//        redisUtil.saveAsPermanentValue(key, statusMap);
 
         // DTO로 변환
         return GetTanjiStatusResponse.toDto(
