@@ -16,8 +16,8 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(MailCustomException.class)
-    protected ResponseEntity<ApiResponse<Void>> handleMailCustomException(MailCustomException e) {
+    @ExceptionHandler(CustomException.class)
+    protected ResponseEntity<ApiResponse<Void>> handleCustomException(CustomException e) {
         return e.getBaseErrorCode().toResponseEntity();
     }
 
