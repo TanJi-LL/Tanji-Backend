@@ -41,8 +41,8 @@ public class RedisUtil {
 
     /**
      * 자정을 만료 시간으로 값을 Redis에 저장하는 메서드.
-     * @param key Redis 키
-     * @param value 저장할 값
+     * @param key Redis에 저장할 키.
+     * @param value 저장할 저장할 값.
      */
     public void saveAsMidnightTTL(String key, Object value) {
         LocalDateTime now = LocalDateTime.now();
@@ -84,5 +84,38 @@ public class RedisUtil {
      */
     public boolean delete(String key) {
         return Boolean.TRUE.equals(redisTemplate.delete(key));
+    }
+
+
+    /**
+     * Sorted Set에 저장하는 메서드.
+     * @param key  Sorted Set 이름.
+     * @param value 저장할 값.
+     * @param score 저장할 값의 점수.
+     */
+    public void saveToZSet(String key, String value, int score) {
+        redisTemplate.opsForZSet().add(key, value, score);
+    }
+
+
+    /**
+     * Sorted Set에서 해당 값의 순위를 조회하는 메서드. (내림차순)
+     * @param key   Sorted Set 이름.
+     * @param value 조회할 값.
+     * @return      조회된 값의 순위.
+     */
+    public Long getZSetReverseRank(String key, String value) {
+        return redisTemplate.opsForZSet().reverseRank(key, value);
+    }
+
+
+    /**
+     * Sorted Set에서 해당 값의 점수를 조회하는 메서드.
+     * @param key   Sorted Set 이름.
+     * @param value 조회할 값.
+     * @return      조회된 값의 점수.
+     */
+    public Double getZSetScore(String key, String value) {
+        return redisTemplate.opsForZSet().score(key, value);
     }
 }
