@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum MissionSuccessStatus implements BaseSuccessStatus {
     GET_TODAY_MISSION_SUCCESS(HttpStatus.OK, "오늘의 미션 및 달성 여부 조회 성공"),
+    UPDATE_MISSION_SUCCESS(HttpStatus.OK, "미션 달성 여부 업데이트 성공")
     ;
 
     private final HttpStatus httpStatus;
