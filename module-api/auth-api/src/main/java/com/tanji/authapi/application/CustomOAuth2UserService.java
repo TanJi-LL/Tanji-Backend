@@ -66,8 +66,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     redisUtil.saveAsPermanentValue(key, statusMap);
 
                     // 누적 메일 삭제 수 Redis에 초기화
-                    String countKey = "member:" + savedMember.getId() + ":delete:count";
-                    redisUtil.saveAsPermanentValue(countKey, 0);
+                    redisUtil.saveToZSet("ranking:delete", "member:" + savedMember.getId(), 0);
 
                     return savedMember;
                 });
