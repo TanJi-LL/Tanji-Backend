@@ -84,7 +84,6 @@ public class TanjiStatusService {
         Member member = memberQueryService.findById(memberId)
                 .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
 
-//        int trashHistoryCount = gmailFetchService.getTrashHistoryCount(member);
         // 메일 마지막 기록 ID Redis에 업데이트
         int trashHistoryCount = gmailFetchService.getTrashHistoryCount(memberId);
 
@@ -98,5 +97,32 @@ public class TanjiStatusService {
         redisUtil.saveAsPermanentValue(key, statusMap);
 
         return new GetWaterResponse(statusMap.getOrDefault("water", 0));
+    }
+
+    public GetTanjiStatusResponse waterTanji(Long memberId) {
+        Member member = memberQueryService.findById(memberId)
+                .orElseThrow(() -> new AuthCustomException(AuthErrorCode.MEMBER_NOT_FOUND));
+        String key = "member:" + member.getId() + ":status";
+
+        Map<String, Integer> statusMap = (Map<String, Integer>) redisUtil.get(key);
+
+        int currentWater = statusMap.getOrDefault("water", 0);
+        int currentThirsty = statusMap.getOrDefault("thirsty", 0);
+
+        if (currentWater <= 0) {
+            throw new TanjiStatusException(INSUFFICIENT_WATER);
+        }
+
+        statusMap.put("water", currentWater - 1);
+        statusMap.put("thirsty", Math.min(currentThirsty + 15, 100)); // 목마름 최대치는 100으로 제한
+
+        redisUtil.saveAsPermanentValue(key, statusMap);
+
+        return GetTanjiStatusResponse.toDto(
+                statusMap.getOrDefault("hungry", 0),
+                statusMap.getOrDefault("thirsty", 0),
+                statusMap.getOrDefault("feed", 0),
+                statusMap.getOrDefault("water", 0)
+        );
     }
 }
