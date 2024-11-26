@@ -29,19 +29,14 @@ public class MissionController {
     @GetMapping("/today")
     public ResponseEntity<ApiResponse<GetTodayMissionStatusesResponse>> getTodayMissionStatuses(Principal principal) {
         Long memberId = MemberUtil.getMemberId(principal);
-
-        return ApiResponse.success(GET_TODAY_MISSION_SUCCESS,
-                missionService.getTodayMissionStatuses(memberId));
+        return ApiResponse.success(GET_TODAY_MISSION_SUCCESS, missionService.getTodayMissionStatuses(memberId));
     }
 
-    @Operation(summary = "오늘의 미션 달성 상태 업데이트", description = "오늘의 미션을 달성 상태를 업데이트하고 먹이 수를 증가시킵니다.")
-    @PutMapping("/today/{missionId}")
+    @Operation(summary = "오늘의 미션 달성 상태 업데이트", description = "오늘의 미션을 달성 상태를 완료로 업데이트하고 먹이 수를 증가시킵니다.")
+    @PatchMapping("/today/{missionId}")
     public ResponseEntity<ApiResponse<CompleteMissionResponse>> completeMission(
-            @PathVariable int missionId,
-            Principal principal) {
+            @PathVariable int missionId, Principal principal) {
         Long memberId = MemberUtil.getMemberId(principal);
-
-        return ApiResponse.success(UPDATE_MISSION_SUCCESS,
-                missionService.completeMission(memberId, missionId));
+        return ApiResponse.success(UPDATE_MISSION_SUCCESS, missionService.completeMission(memberId, missionId));
     }
 }

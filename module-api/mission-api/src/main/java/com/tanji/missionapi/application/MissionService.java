@@ -34,17 +34,17 @@ public class MissionService {
     public GetTodayMissionStatusesResponse getTodayMissionStatuses(Long memberId) {
         Member member = findMemberById(memberId);
 
-        String missionStatusKey = MISSIONS_PREFIX + LocalDate.now() + ":" + member.getId();
+        String missionStatusKey = "member:" + member.getId() + ":missions:" + LocalDate.now();
         List<MissionStatus> missionStatuses = (List<MissionStatus>) redisUtil.get(missionStatusKey);
 
         if (missionStatuses == null) {
             // Redis에서 오늘의 미션 리스트 조회
-            List<TanjiMission> missions = (List<TanjiMission>) redisUtil.get(MISSIONS_PREFIX + LocalDate.now());
+            List<TanjiMission> missions = (List<TanjiMission>) redisUtil.get("missions:" + LocalDate.now());
 
             if (missions == null) {
                 // 오늘의 미션 리스트가 없는 경우 오늘의 미션 생성
                 refreshMissions();
-                missions = (List<TanjiMission>) redisUtil.get(MISSIONS_PREFIX + LocalDate.now());
+                missions = (List<TanjiMission>) redisUtil.get("missions:" + LocalDate.now());
             }
 
             List<MissionStatus> newMissionStatuses = new ArrayList<>();
@@ -66,13 +66,13 @@ public class MissionService {
         List<TanjiMission> missions = TanjiMission.getRandomMissions(3);
 
         // 자정을 만료시간으로 오늘의 미션 Redis에 저장
-        redisUtil.saveAsMidnightTTL(MISSIONS_PREFIX + now, missions);
+        redisUtil.saveAsMidnightTTL("missions:" + now, missions);
     }
 
     public CompleteMissionResponse completeMission(Long memberId, int missionId) {
         Member member = findMemberById(memberId);
 
-        String missionStatusKey = MISSIONS_PREFIX + LocalDate.now() + ":" + member.getId();
+        String missionStatusKey = "member:" + member.getId() + ":missions:" + LocalDate.now();
         List<MissionStatus> currentMissionStatuses = (List<MissionStatus>) redisUtil.get(missionStatusKey);;
 
         if (currentMissionStatuses == null) {

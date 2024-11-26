@@ -43,6 +43,13 @@ public class TanjiStatusController {
         return ApiResponse.success(FEED_TANJI_SUCCESS,tanjiStatusService.feedTanji(memberId));
     }
 
+    @Operation(summary = "탄지 물 주기", description = "남은 물 수를 감소 시키고 목마름 정도를 증가시킵니다.")
+    @PatchMapping("/water")
+    public ResponseEntity<ApiResponse<GetTanjiStatusResponse>> waterTanji(Principal principal) {
+        Long memberId = MemberUtil.getMemberId(principal);
+        return ApiResponse.success(WATER_TANJI_SUCCESS,tanjiStatusService.waterTanji(memberId));
+    }
+
     @Operation(summary = "물 상태 업데이트", description = "삭제된 메일 수를 기반으로 물 상태를 증가시킵니다.")
     @PatchMapping("/water/refresh")
     public ResponseEntity<ApiResponse<GetWaterResponse>> refreshWater(Principal principal) throws GeneralSecurityException, IOException {
