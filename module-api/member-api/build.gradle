@@ -1,5 +1,6 @@
-bootJar { enabled = true }
-jar { enabled = false }
+bootJar { enabled = false }
+jar { enabled = true }
+
 
 repositories {
     mavenCentral()
@@ -7,6 +8,7 @@ repositories {
 
 dependencies {
     implementation project(':module-domain:domain-rds')
+    implementation project(':module-domain:domain-redis')
     implementation project(':module-api:auth-api')
     implementation 'org.springframework.boot:spring-boot-starter-security'
 }

@@ -7,4 +7,3 @@ dependencies {
 }
 
 tasks.register("prepareKotlinBuildScriptModel"){}
-

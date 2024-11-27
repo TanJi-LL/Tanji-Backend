@@ -2,13 +2,9 @@ spring:
   application:
     name: domain-redis
 
-  config:
-    activate:
-      on-profile: local
-
   data:
     redis:
-      host: localhost
+      host: 3.38.84.17   # Redis의 퍼블릭 IP 주소
       port: 6379
 
 cors:

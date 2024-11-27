@@ -19,6 +19,7 @@ spring:
       - application-redis-local.yml
       - application-auth-local.yml
       - application-oauth-local.yml
+      - application-member-local.yml
 
 logging:
   level:
