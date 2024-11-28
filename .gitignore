@@ -251,5 +251,5 @@ out/
 **/src/main/resources/application-oauth-*.yml
 **/src/main/resources/application-auth-*.yml
 **/src/main/resources/application-member-*.yml
-module-api/auth-api/src/main/resources/application-auth-*.yml
+module-api/auth-api/src/main/resources/application-auth-*.yml햐
 # End of https://www.toptal.com/developers/gitignore/api/macos,intellij,java,intellij+all
