@@ -3,12 +3,13 @@ spring:
     name: execute-app
 
   profiles:
-    active: local # default
+    active: local # 기본 프로파일은 local
   servlet:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
 
+# 로컬 프로파일에 대한 설정
 ---
 spring:
   config:
@@ -25,3 +26,21 @@ logging:
   level:
     root: info  # 기본 로그 레벨을 info로 설정
     com.tanji: debug  # com.tanji 패키지의 로그 레벨을 debug로 설정
+
+# 프로덕션 프로파일에 대한 설정
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import:
+      - application-rds-prod.yml
+      - application-redis-prod.yml
+      - application-auth-prod.yml
+      - application-oauth-prod.yml
+      - application-member-prod.yml
+
+logging:
+  level:
+    root: info  # 기본 로그 레벨을 info로 설정
+    com.tanji: warn  # 프로덕션에서는 com.tanji 패키지의 로그 레벨을 warn으로 설정 (로그 레벨을 낮추어 성능 향상)

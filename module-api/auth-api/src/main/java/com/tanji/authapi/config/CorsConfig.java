@@ -24,6 +24,14 @@ public class CorsConfig implements WebMvcConfigurer {
         allowedOriginPatterns.add("http://localhost:3000");
         allowedOriginPatterns.add("https://localhost:3000");
 
+        allowedOriginPatterns.add("https://drinkguide.store");
+        allowedOriginPatterns.add("http://drinkguide.store");
+
+        allowedOriginPatterns.add("chrome-extension://koknhbeobbggpdoejlnnenmdkoogpcfp");
+        allowedOriginPatterns.add("chrome-extension://cpleniffdlfncjgdgdjdfepkjbjhfbnn");
+        allowedOriginPatterns.add("chrome-extension://lcffcfdpmjmmdnmboddohfiljnbbjakh");
+        allowedOriginPatterns.add("chrome-extension://ocdkbkdelgibiagdekkgcnpgcnbilbik");
+
         configuration.setAllowedOrigins(allowedOriginPatterns);
         configuration.setAllowedMethods(List.of("HEAD", "POST", "GET", "DELETE", "PUT", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));

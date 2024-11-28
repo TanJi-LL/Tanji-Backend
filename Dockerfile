@@ -8,4 +8,4 @@ COPY module-api/execute-app/build/libs/execute-app-0.0.1-SNAPSHOT.jar ./execute.
 
 EXPOSE 8080
 # 임시
-ENTRYPOINT ["java", "-Dspring.profiles.active=local", "-Duser.timezone=Asia/Seoul", "-jar", "./execute.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-Duser.timezone=Asia/Seoul", "-jar", "./execute.jar"]

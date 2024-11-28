@@ -4,10 +4,5 @@ spring:
 
   data:
     redis:
-      host: 3.38.84.17   # Redis의 퍼블릭 IP 주소
+      host: local   # Redis의 퍼블릭 IP 주소
       port: 6379
-
-cors:
-  allowed-origins: "http://localhost:3000"
-  allowed-methods: "GET,POST,PUT,DELETE"
-  max-age: 3600

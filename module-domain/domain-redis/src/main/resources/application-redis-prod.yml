@@ -1,0 +1,5 @@
+spring:
+  data:
+    redis:
+      host: 3.38.84.17   # Redis의 퍼블릭 IP 주소
+      port: 6379
