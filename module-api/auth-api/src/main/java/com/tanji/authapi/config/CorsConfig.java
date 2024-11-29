@@ -31,6 +31,7 @@ public class CorsConfig implements WebMvcConfigurer {
         allowedOriginPatterns.add("chrome-extension://cpleniffdlfncjgdgdjdfepkjbjhfbnn");
         allowedOriginPatterns.add("chrome-extension://lcffcfdpmjmmdnmboddohfiljnbbjakh");
         allowedOriginPatterns.add("chrome-extension://ocdkbkdelgibiagdekkgcnpgcnbilbik");
+        allowedOriginPatterns.add("chrome-extension://jloifcggdhbkddgfabkjoaknbpffpppo");
 
         configuration.setAllowedOrigins(allowedOriginPatterns);
         configuration.setAllowedMethods(List.of("HEAD", "POST", "GET", "DELETE", "PUT", "OPTIONS", "PATCH"));
